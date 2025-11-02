@@ -8,6 +8,12 @@ import ProductCard from "./ProductCard"
 import CategoryFilter from "./CategoryFilter"
 
 
+export default function Catalog(){
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError]= useState(null)
+};
+
 
 
 
