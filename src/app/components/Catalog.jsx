@@ -71,9 +71,9 @@ export default function Catalog(){
     return (
         <section>
             <aside>
-                <CatergoryFilter categories= {categories} value= {category} onChange = {setCategory} />
+                <CategoryFilter categories= {categories} value= {category} onChange = {setCategory} />
                 <PriceFilter value= {priceArea} onChange= {setPriceArea}/>
-                <CartSummary cartItems = {cart} onDecrement = {removeFromCart} onReset = {resetCart} />
+                <CartSummary cart= {cart} onDecrement = {removeFromCart} onReset = {resetCart} />
             </aside>
 
             <div>
