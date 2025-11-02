@@ -22,8 +22,10 @@ export default function Catalog(){
 
     useEffect(() => {
         fetch("/api/products")
-        .then(res => res.json)
-        .then(data => setProducts(data))
+        .then(res => res.json())
+        .then(data => {
+            console.log("API returned:", data)
+            setProducts(data)})
         .catch(() => setError("Can't load products.."))
         .finally(() => setLoading(false));
      }, []);
@@ -38,12 +40,26 @@ export default function Catalog(){
         },5000)
 
         return () => clearInterval(interval)},
-        [products.length]);
+        [products]);
+
+
+    const filtered = products.filter(p =>{
+        if (category !== "All" && p.category !== category) return false
+        if (priceArea === "All") return true
+        const [min, max] = priceArea.split("-").map(Number)
+        return p.price >= min && p.price <= max
+    })
 
 
 
 
-
+    return (
+        <>
+            
+        
+        
+        </>
+    )
 
 
 
