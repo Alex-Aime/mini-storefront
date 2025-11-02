@@ -26,10 +26,19 @@ export default function Catalog(){
         .then(data => setProducts(data))
         .catch(() => setError("Can't load products.."))
         .finally(() => setLoading(false));
-     }, [])
+     }, []);
 
 
+    useEffect(() => {
+        if (!products.length) return
+        const interval = setInterval(() => {
+            setProducts(prev => prev.map(p => ({ ...p,
+                stock: Math.max(0, p.stock + (Math.random() < 0.5 ? -1: 0))
+            })))
+        },5000)
 
+        return () => clearInterval(interval)},
+        [products.length]);
 
 
 
