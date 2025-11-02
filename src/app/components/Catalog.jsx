@@ -51,6 +51,21 @@ export default function Catalog(){
     })
 
 
+    const categories =["All", ...new Set(products.map(p => p.category))];
+
+    const addToCart = (product) => {
+        if (!product.stock || cart[product.id]) return
+        setCart(c => ({...c, [product.id]: product }))
+    };
+
+    const removeFromCart = (id) => {
+        const copy = {...cart}
+        delete copy[id]
+        setCart(copy)
+    };
+
+    const resetCart = () => setCart({})
+
 
 
     return (
