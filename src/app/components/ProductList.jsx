@@ -19,3 +19,4 @@ export default function ProductList({ products, onAdd, cart}) {
         </div>
     )
 }
+

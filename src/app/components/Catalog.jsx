@@ -31,18 +31,6 @@ export default function Catalog(){
      }, []);
 
 
-    useEffect(() => {
-        if (!products.length) return
-        const interval = setInterval(() => {
-            setProducts(prev => prev.map(p => ({ ...p,
-                stock: Math.max(0, p.stock + (Math.random() < 0.5 ? -1: 0))
-            })))
-        },5000)
-
-        return () => clearInterval(interval)},
-        [products]);
-
-
     const filtered = products.filter(p =>{
         if (category !== "All" && p.category !== category) return false
         if (priceArea === "All") return true
@@ -54,14 +42,30 @@ export default function Catalog(){
     const categories =["All", ...new Set(products.map(p => p.category))];
 
     const addToCart = (product) => {
-        if (!product.stock || cart[product.id]) return
-        setCart(c => ({...c, [product.id]: product }))
+        if (!product || product.stock <= 0) return
+
+        setCart(prev => ({
+            ...prev, [product.id] : {
+                ...(prev[product.id] || {id: product.id, name: product.name, price: product.price}),
+                quantity: (prev[product.id]?.quantity || 0) + 1
+            }
+        }
+
+        ))
+
+        setProducts(prev => prev.map(p => p.id === product.id
+            ? {...p, stock: Math.max(0, p.stock - 1)} : p
+        ))
     };
 
+
+
     const removeFromCart = (id) => {
-        const copy = {...cart}
+        setCart(prev => {
+        const copy = {...prev}
         delete copy[id]
-        setCart(copy)
+        return(copy)
+        })
     };
 
     const resetCart = () => setCart({})
@@ -73,23 +77,15 @@ export default function Catalog(){
             <aside>
                 <CategoryFilter categories= {categories} value= {category} onChange = {setCategory} />
                 <PriceFilter value= {priceArea} onChange= {setPriceArea}/>
-                <CartSummary cart= {cart} onDecrement = {removeFromCart} onReset = {resetCart} />
+                <CartSummary cartItems= {cart} onDecrement = {removeFromCart} onReset = {resetCart} />
             </aside>
 
             <div>
                 <StatusMessage loading = {loading} error = {error} count= {filtered.length} />
                 {!loading && !error && ( <ProductList products = {filtered} onAdd = {addToCart} cart= {cart}/>)}
             </div>
-        </section>
-            
-        
-        
-        
+        </section>      
     )
-
-
-
-
 
 };
 

@@ -1,7 +1,8 @@
 'use client';
 
-export default function CartSummary({cartItems, onDecrement, onReset}) {
-    const items = Object.value(cartItems);
+export default function CartSummary({cartItems ={}, onDecrement, onReset}) {
+    const items = Object.values(cartItems);
+    console.log("cart items:", cartItems )
 
     const totalPrice = items.reduce((sum, item) => sum + item.price, 0);
 

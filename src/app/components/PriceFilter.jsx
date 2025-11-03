@@ -18,9 +18,11 @@ export default function PriceFilter({value, onChange}) {
             </label>
             <select id="price" value= {value} onChange={(e) => onChange(e.target.value)}>
                 {priceRanges.map((range) => {
+                    return (
                     <option key={range} value={range}>
                         {range === "All" ? "All Prices" : `$${range.replace("-", "-$")}`}
                     </option>
+                    )
                 } )}
             </select>
         </div>
