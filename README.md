@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# React + Next.js Mini-Storefront
+✅ Part 1 — Environment Setup (Required)
+Create Your Project Using the Command Line
+Open your terminal and run:
 
-## Getting Started
+npx create-next-app@latest mini-storefront
+Answer the prompts exactly:
 
-First, run the development server:
+Prompt	Correct Answer
+Would you like to use TypeScript?	❌ No
+Would you like to use ESLint?	✅ Yes
+Would you like to use Tailwind CSS?	✅ Yes
+Use src/ directory?	✅ Yes
+Use App Router?	✅ Yes
+Customize import alias?	❌ No
+Then:
 
-```bash
+cd mini-storefront
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Visit ➜ http://localhost:3000 Links to an external site. ✅
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+✅ Part 2 — Project Requirements
+You are building a Mini-Storefront where shoppers can:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Browse products
+Filter by category and price
+Add items to a cart
+View cart totals
+See product stock update over time
+View loading, error, and empty states
+🧩 Required Files & Components
+📌 Use this structure inside src/app:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+src/
+ ├── app/
+ │   ├── page.jsx              // Server Component
+ │   ├── api/
+ │   │   └── products/route.js // API route returning JSON
+ │   └── components/
+ │       ├── Catalog.jsx
+ │       ├── ProductList.jsx
+ │       ├── ProductCard.jsx
+ │       ├── CategoryFilter.jsx
+ │       ├── PriceFilter.jsx
+ │       ├── CartSummary.jsx
+ │       └── StatusMessage.jsx
+📍 All components in components/ must begin with:
 
-## Learn More
+'use client';
+✅ Functional Specifications
+Area	Requirement
+Components + JSX	Reusable components with correct JSX rules
+Lists with Keys	Use stable product IDs as keys
+Props + Callbacks	Parent → Child data; Child → Parent events
+State	useState with immutable updates
+Controlled Inputs	Category + price filters
+Conditional Rendering	Loading, error, and empty results
+Effects	Fetch products + simulate inventory count changes
+Cleanup	stop interval/WebSocket on unmount
+Lifting State	Filters and cart stored in Catalog.jsx
+No TypeScript	.jsx only
+🧠 Component Behavior Details
+Component	Must Include
+Catalog.jsx	Fetch API data (initial load), shared state for filters + cart, interval stock updates with cleanup
+ProductList.jsx	Maps products to cards (key={id})
+ProductCard.jsx	Disable Add button if out of stock; show “Out of stock”
+CategoryFilter + PriceFilter	Controlled inputs that update parent state
+CartSummary.jsx	Show item count + total price; decrement and reset actions
+StatusMessage.jsx	Shows correct message based on state (loading, error, or empty)
+🧪 API Requirement
+Create this file:
 
-To learn more about Next.js, take a look at the following resources:
+📁 src/app/api/products/route.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Example (you must include at least 8–12 items across 3+ categories):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+export async function GET() {
+  const products = [
+    { id: 'p1', name: 'Laptop', price: 1200, category: 'Electronics', stock: 5 },
+    { id: 'p2', name: 'Desk Chair', price: 150, category: 'Furniture', stock: 3 },
+    { id: 'p3', name: 'Phone', price: 900, category: 'Electronics', stock: 4 }
+  ];
+  return Response.json(products);
+}
