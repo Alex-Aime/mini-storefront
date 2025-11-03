@@ -9,5 +9,20 @@ export default function PriceFilter({value, onChange}) {
         "269-501",
         "502-1001",
         "1002-2103"
-    ]
-}
+    ];
+
+    return (
+        <div>
+            <label htmlFor="price">
+                Price Range
+            </label>
+            <select id="price" value= {value} onChange={(e) => onChange(e.target.value)}>
+                {priceRanges.map((range) => {
+                    <option key={range} value={range}>
+                        {range === "All" ? "All Prices" : `$${range.replace("-", "-$")}`}
+                    </option>
+                } )}
+            </select>
+        </div>
+    );
+};
