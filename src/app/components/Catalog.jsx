@@ -6,6 +6,7 @@ import CartSummary from "./CartSummary"
 import PriceFilter from "./PriceFilter"
 import ProductCard from "./ProductCard"
 import CategoryFilter from "./CategoryFilter"
+import StockPieChart from "./StockPieChart"   // added import
 
 
 export default function Catalog(){
@@ -78,6 +79,9 @@ export default function Catalog(){
                 <CategoryFilter categories= {categories} value= {category} onChange = {setCategory} />
                 <PriceFilter value= {priceArea} onChange= {setPriceArea}/>
                 <CartSummary cartItems= {cart} onDecrement = {removeFromCart} onReset = {resetCart} />
+
+                {/* Pie chart connected to real data in app state */}
+                <StockPieChart products={products} />
             </aside>
 
             <div>
