@@ -21,7 +21,16 @@ export default function StockPieChart({ products = [] }) {
     return Object.entries(totals).map(([name, value]) => ({ name, value }));
   }, [products]);
 
-  const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+  // explicit category colors
+  const categoryColors = {
+    Electronics: '#2E86DE', // blue
+    Furniture:   '#E67E22', // orange
+    Appliances:  '#27AE60', // green
+    // add more explicit mappings if you need
+  };
+
+  // fallback palette for any unspecified categories
+  const fallbackColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
 
   if (!data.length) {
     return <div className="chart-empty">No stock data available</div>;
@@ -41,10 +50,12 @@ export default function StockPieChart({ products = [] }) {
               cy="50%"
               outerRadius={80}
               label
-            />
-            {data.map((_, i) => (
-              <Cell key={`cell-${i}`} fill={colors[i % colors.length]} />
-            ))}
+            >
+              {data.map((entry, i) => {
+                const color = categoryColors[entry.name] || fallbackColors[i % fallbackColors.length];
+                return <Cell key={`cell-${i}`} fill={color} />;
+              })}
+            </Pie>
             <Tooltip formatter={(value) => [`${value}`, 'Stock']} />
             <Legend verticalAlign="bottom" height={36} />
           </RePieChart>
